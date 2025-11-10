@@ -12,6 +12,8 @@
 import dotenv from 'dotenv';
 import { getAuthenticatedClient, isAuthenticated } from './auth.js';
 import { startAuthServer } from './oauth-server.js';
+import { cloudasset } from 'googleapis/build/src/apis/cloudasset/index.js';
+import { cloudprofiler } from 'googleapis/build/src/apis/cloudprofiler/index.js';
 
 // Load environment variables
 dotenv.config();
@@ -116,13 +118,16 @@ async function getTodaysEmails() {
       userId: 'me',
       q: query
     });
+    console.dir(listResponse, { depth: null });
+    
+  
 
     const messages = listResponse.data.messages;
     if (!messages || messages.length === 0) {
       console.log('No emails found from today.');
       return [];
     }
-
+    console.log(`Messages with 2 whitespace indentation: ${JSON.stringify(messages[2], null, 2)}`)
     console.log(`Found ${messages.length} emails from today. Fetching details...\n`);
 
     const detailPromises = messages.map(message =>
@@ -132,22 +137,23 @@ async function getTodaysEmails() {
         format: 'full'
       })
     );
-
+    console.log(detailPromises);
     const emailDetails = await Promise.all(detailPromises);
+    // console.log(emailDetails);
 
-    emailDetails.forEach((response, index) => {
-      const email = response.data;
-      const headers = email.payload.headers;
-      const subject = headers.find(h => h.name === 'Subject')?.value || '(No subject)';
-      const from = headers.find(h => h.name === 'From')?.value || 'Unknown';
-      const date = headers.find(h => h.name === 'Date')?.value || 'Unknown';
+    // emailDetails.forEach((response, index) => {
+    //   const email = response.data;
+    //   const headers = email.payload.headers;
+    //   const subject = headers.find(h => h.name === 'Subject')?.value || '(No subject)';
+    //   const from = headers.find(h => h.name === 'From')?.value || 'Unknown';
+    //   const date = headers.find(h => h.name === 'Date')?.value || 'Unknown';
 
-      console.log(`\n📩 Today Email ${index + 1}:`);
-      console.log(`   From: ${from}`);
-      console.log(`   Subject: ${subject}`);
-      console.log(`   Date: ${date}`);
-      console.log(`   ID: ${email.id}`);
-    });
+    //   console.log(`\n📩 Today Email ${index + 1}:`);
+    //   console.log(`   From: ${from}`);
+    //   console.log(`   Subject: ${subject}`);
+    //   console.log(`   Date: ${date}`);
+    //   console.log(`   ID: ${email.id}`);
+    // });
 
     return emailDetails;
   } catch (error) {
@@ -186,11 +192,6 @@ async function main() {
     
     console.log('\n' + '='.repeat(50));
     console.log(`✅ Successfully fetched ${emails.length} emails!`);
-    console.log('\n💡 ASYNC LEARNING POINTS:');
-    console.log('   1. Used async/await for clean, readable code');
-    console.log('   2. Promise.all() fetched multiple emails in parallel');
-    console.log('   3. Error handling with try/catch blocks');
-    console.log('   4. Sequential and parallel async patterns demonstrated');
     
   } catch (error) {
     console.error('\n❌ Test failed:', error.message);
