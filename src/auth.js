@@ -129,6 +129,8 @@ export async function loadSavedTokens(oauth2Client) {
  * 1. Try to load saved tokens
  * 2. If no tokens, need to authenticate (handled elsewhere)
  * 3. Return ready-to-use Gmail client
+ * 
+ * LEARNING: Now includes auto-refresh of expired tokens!
  */
 export async function getAuthenticatedClient() {
   const oauth2Client = createOAuth2Client();
@@ -138,6 +140,23 @@ export async function getAuthenticatedClient() {
   if (!hasTokens) {
     throw new Error('Not authenticated. Run authentication flow first.');
   }
+  
+  // AUTO-REFRESH: When access token expires, automatically get a new one
+  oauth2Client.on('tokens', async (tokens) => {
+    if (tokens.refresh_token) {
+      // We got a new refresh token, save it
+      console.log('🔄 Refresh token updated');
+    }
+    // Save the new access token
+    try {
+      const existingTokens = JSON.parse(await fs.readFile(TOKEN_PATH, 'utf-8'));
+      const updatedTokens = { ...existingTokens, ...tokens };
+      await fs.writeFile(TOKEN_PATH, JSON.stringify(updatedTokens));
+      console.log('✅ Access token refreshed automatically');
+    } catch (error) {
+      console.error('⚠️  Could not save refreshed token:', error.message);
+    }
+  });
   
   // Create Gmail API client with authentication
   const gmail = google.gmail({ version: 'v1', auth: oauth2Client });

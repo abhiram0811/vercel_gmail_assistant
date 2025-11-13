@@ -120,7 +120,6 @@ async function getTodaysEmails() {
     });
     console.dir(listResponse, { depth: null });
     
-  
 
     const messages = listResponse.data.messages;
     if (!messages || messages.length === 0) {
@@ -137,27 +136,35 @@ async function getTodaysEmails() {
         format: 'full'
       })
     );
-    console.log(detailPromises);
+    
     const emailDetails = await Promise.all(detailPromises);
-    // console.log(emailDetails);
+    console.log(emailDetails);
 
-    // emailDetails.forEach((response, index) => {
-    //   const email = response.data;
-    //   const headers = email.payload.headers;
-    //   const subject = headers.find(h => h.name === 'Subject')?.value || '(No subject)';
-    //   const from = headers.find(h => h.name === 'From')?.value || 'Unknown';
-    //   const date = headers.find(h => h.name === 'Date')?.value || 'Unknown';
+    emailDetails.forEach((response, index) => {
+      const email = response.data;
+      const headers = email.payload.headers;
+      const subject = headers.find(h => h.name === 'Subject')?.value || '(No subject)';
+      const from = headers.find(h => h.name === 'From')?.value || 'Unknown';
+      const date = headers.find(h => h.name === 'Date')?.value || 'Unknown';
 
-    //   console.log(`\n📩 Today Email ${index + 1}:`);
-    //   console.log(`   From: ${from}`);
-    //   console.log(`   Subject: ${subject}`);
-    //   console.log(`   Date: ${date}`);
-    //   console.log(`   ID: ${email.id}`);
-    // });
+      console.log(`\n📩 Today Email ${index + 1}:`);
+      console.log(`   From: ${from}`);
+      console.log(`   Subject: ${subject}`);
+      console.log(`   Date: ${date}`);
+      console.log(`   ID: ${email.id}`);
+    });
 
     return emailDetails;
   } catch (error) {
     console.error('❌ Error fetching today\'s emails:', error.message);
+    
+    // LEARNING: Handle OAuth errors specifically
+    if (error.message === 'invalid_grant') {
+      console.log('\n⚠️  Your authentication has expired or been revoked.');
+      console.log('📝 To fix this, run: node src/oauth-server.js');
+      console.log('   Then come back and run this script again.\n');
+    }
+    
     throw error;
   }
 }
