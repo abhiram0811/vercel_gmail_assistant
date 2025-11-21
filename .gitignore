@@ -4,20 +4,39 @@ package-lock.json
 
 # Environment variables
 .env
+.env.local
+.env*.local
 
-# OAuth tokens (stored locally after authentication)
+# OAuth tokens (no longer used - tokens stored in Redis)
 token.json
+
+# Vercel
+.vercel
+
+# Next.js
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
 
 # Logs
 *.log
 logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # OS files
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
+
+# Testing
+coverage/
+.nyc_output/
+

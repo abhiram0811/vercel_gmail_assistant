@@ -1,81 +1,42 @@
-# Gmail Wrapper Project# Gmail Assistant - Production Ready 🚀# 📧 Gmail Vector Assistant
+# Gmail Assistant - Production Ready 🚀# 📧 Gmail Vector Assistant
 
 
 
-This repository has been migrated to a production-ready Next.js application.
+A production-ready Next.js application that provides AI-powered semantic search for your Gmail emails. Access your personal Gmail assistant from anywhere using a secure web interface.A learning project that teaches you how to:
+
+- Work with Gmail API and OAuth2 authentication
+
+## 🌟 Live Application- Store emails in a vector database (Pinecone)
+
+- Query emails semantically using LLMs
+
+**Production URL**: https://gmail-assisstant.vercel.app- Write async JavaScript code
 
 
 
-## 📂 Project LocationA production-ready Next.js application that provides AI-powered semantic search for your Gmail emails. Access your personal Gmail assistant from anywhere using a secure web interface.A learning project that teaches you how to:
+## ✨ Features---
 
 
 
-**All code and documentation is in the `gmail-assistant/` directory.**- Work with Gmail API and OAuth2 authentication
+- 🔍 **Semantic Search**: Search emails by meaning, not just keywords using OpenAI embeddings## 🎯 Phase 1: Setup & Authentication (Current Phase)
 
+- 📧 **Gmail Integration**: Secure read-only access to your Gmail via Google OAuth2
 
+- 🤖 **AI-Powered**: Uses OpenAI text-embedding-3-small (1536 dimensions) for intelligent searchWe're starting with the foundation - getting authenticated access to Gmail.
 
-Please open the `gmail-assistant` folder as your workspace for development.## 🌟 Live Application- Store emails in a vector database (Pinecone)
+- ⚡ **Vector Database**: Fast similarity search powered by Pinecone serverless
 
+- 🔐 **Secure Authentication**: OAuth2 flow with encrypted token storage in Redis### **What You've Built So Far:**
 
+- 📊 **Email Analytics**: View indexing stats and search performance metrics- ✅ Project structure with proper configuration
 
-```bash- Query emails semantically using LLMs
+- 🎨 **Modern UI**: Clean, responsive interface built with Tailwind CSS- ✅ OAuth2 authentication module
 
-cd gmail-assistant
+- ☁️ **Serverless**: Deployed on Vercel's free tier with automatic scaling- ✅ Web server for OAuth callback handling
 
-```**Production URL**: https://gmail-assisstant.vercel.app- Write async JavaScript code
+- ✅ Test script to verify Gmail access
 
-
-
-## 🚀 Live Application
-
-
-
-**Production URL**: https://gmail-assisstant.vercel.app## ✨ Features---
-
-
-
-## 📖 Documentation
-
-
-
-All documentation is inside `gmail-assistant/`:- 🔍 **Semantic Search**: Search emails by meaning, not just keywords using OpenAI embeddings## 🎯 Phase 1: Setup & Authentication (Current Phase)
-
-- **README.md** - Main project documentation
-
-- **PROJECT_CONTEXT.md** - Complete development history & context- 📧 **Gmail Integration**: Secure read-only access to your Gmail via Google OAuth2
-
-- **QUICK_REFERENCE.md** - Quick summary
-
-- **SETUP_STEPS.md** - Setup instructions- 🤖 **AI-Powered**: Uses OpenAI text-embedding-3-small (1536 dimensions) for intelligent searchWe're starting with the foundation - getting authenticated access to Gmail.
-
-- **DEPLOYMENT.md** - Deployment guide
-
-- **USER_GUIDE.md** - User manual- ⚡ **Vector Database**: Fast similarity search powered by Pinecone serverless
-
-
-
-## 🎯 Quick Start- 🔐 **Secure Authentication**: OAuth2 flow with encrypted token storage in Redis### **What You've Built So Far:**
-
-
-
-```bash- 📊 **Email Analytics**: View indexing stats and search performance metrics- ✅ Project structure with proper configuration
-
-cd gmail-assistant
-
-npm install- 🎨 **Modern UI**: Clean, responsive interface built with Tailwind CSS- ✅ OAuth2 authentication module
-
-npm run dev
-
-```- ☁️ **Serverless**: Deployed on Vercel's free tier with automatic scaling- ✅ Web server for OAuth callback handling
-
-
-
----- ✅ Test script to verify Gmail access
-
-
-
-**For development work, open `gmail-assistant/` as your workspace in VS Code.**## 🏗️ Architecture
-
+## 🏗️ Architecture
 
 ---
 
