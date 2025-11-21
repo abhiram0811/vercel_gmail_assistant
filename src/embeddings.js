@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import { configDotenv } from "dotenv";
-import { text } from "express";
-import { texttospeech } from "googleapis/build/src/apis/texttospeech";
+
 
 configDotenv();
 
@@ -42,7 +41,7 @@ export async function createEmbedding(text){
  * @param {Object} emailData - Gmail API email object
  * @returns {Object} Prepared data with text and metadata
  */
-export async function prepareEmailForEmbedding(emailData) {
+export function prepareEmailForEmbedding(emailData) {
     const headers = emailData.payload.headers;
     const subject = headers.find(h => h.name === 'Subject')?.value || '';
     const from = headers.find(h => h.name === 'From')?.value || '';

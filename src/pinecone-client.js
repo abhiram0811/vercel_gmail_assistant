@@ -8,8 +8,9 @@
  * Vector DB: "Find emails similar to 'project discussion'"
  */
 import { Pinecone } from "@pinecone-database/pinecone";
-import { chatStream } from "@pinecone-database/pinecone/dist/assistant/data/chatStream";
+
 import { configDotenv } from "dotenv";
+
 
 configDotenv();
 
@@ -32,7 +33,7 @@ export async function initializePinecone() {
     console.log('Connecting to Pinecone...');
 
     pineconeClient = new Pinecone({
-        apiKey: process.env.PINECONE_APPI_KEY
+        apiKey: process.env.PINECONE_API_KEY
     });
 
     //Check if the index exists
@@ -77,8 +78,50 @@ export async function upsertEmails(embeddedEmails) {
     console.log(`Uploading ${embeddedEmails.length} emails to Pinecone...`);
 
     const batchSize = 100;
-    for(let i = 0; i < embeddedEmails.length; i = i + batchSize){
+    for (let i = 0; i < embeddedEmails.length; i = i + batchSize) {
         const batch = embeddedEmails.slice(i, i + batchSize);
         await index.upsert(batch);
+        console.log(`Uploaded batch ${Math.floor(i / batchSize) + 1}`);
     }
+
+    console.log('All emails uploaded!\n');
+}
+
+/**
+ * Search for similar emails
+ * 
+ * LEARNING: This is the magic! Search by MEANING, not keywords
+ * 
+ * @param {string} queryText - What to search for
+ * @param {number} topK - How many results to return
+ * @returns {Promise<Array>} Similar emails
+ */
+export async function searchEmails(queryText, topK = 5) {
+    const { index } = await initializePinecone();
+
+    const { createEmbedding } = await import('./embeddings.js');
+    const queryEmbedding = await createEmbedding(queryText);
+
+    console.log(`Searching for:"${queryText}"\n`);
+
+    //Query Pinecone
+    const results = await index.query({
+        vector: queryEmbedding,
+        topK,
+        includeMetadata: true
+    });
+
+
+    console.log(`These are the returned results from the Promise's response of the Index.query method from Pinecone SDK\n${results}`);
+    return results.matches;
+
+}
+
+/**
+ * Get index statistics
+ */
+export async function getIndexStats() {
+  const { index } = await initializePinecone();
+  const stats = await index.describeIndexStats();
+  return stats;
 }

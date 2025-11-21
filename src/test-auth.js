@@ -101,7 +101,7 @@ async function fetchRecentEmails(maxResults = 5) {
  * 
  */
 
-async function getTodaysEmails() {
+export async function getTodaysEmails() {
   try {
     console.log('📧 Fetching today\'s emails...\n');
 
@@ -118,15 +118,13 @@ async function getTodaysEmails() {
       userId: 'me',
       q: query
     });
-    console.dir(listResponse, { depth: null });
-    
 
     const messages = listResponse.data.messages;
     if (!messages || messages.length === 0) {
       console.log('No emails found from today.');
       return [];
     }
-    console.log(`Messages with 2 whitespace indentation: ${JSON.stringify(messages[2], null, 2)}`)
+    
     console.log(`Found ${messages.length} emails from today. Fetching details...\n`);
 
     const detailPromises = messages.map(message =>
@@ -138,7 +136,6 @@ async function getTodaysEmails() {
     );
     
     const emailDetails = await Promise.all(detailPromises);
-    console.log(emailDetails);
 
     emailDetails.forEach((response, index) => {
       const email = response.data;
