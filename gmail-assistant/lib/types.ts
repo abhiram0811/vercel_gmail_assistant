@@ -53,3 +53,25 @@ export interface ApiResponse<T = any> {
   error?: string;
   message?: string;
 }
+
+/**
+ * Job application tracking
+ */
+export interface JobApplication {
+  jobTitle: string;
+  companyName: string;
+  dateApplied?: string;
+  emailId: string;
+  status: ApplicationStatus;
+  lastUpdated: string;
+  notes?: string;
+
+  sheetRowId?: number;
+}
+
+export type ApplicationStatus = 'applied'
+  | 'interviewing'
+  | 'offer'
+  | 'rejected' 
+  | 'assessment' 
+  | 'moving-forward';
