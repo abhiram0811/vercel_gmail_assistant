@@ -7,8 +7,8 @@ import type { JobApplication } from './types';
 import { google } from 'googleapis';
 import { version } from 'os';
 
-const SHEET_NAME = 'Job Application';
-const HEADER_ROW = ['Job Title', 'Company', 'Date Applied', 'Status', 'Last Applied']
+const SHEET_NAME = 'Sheet1'; // Match your Google Sheet tab name
+const HEADER_ROW = ['Job Title', 'Company', 'Date Applied', 'Status', 'Last Updated', 'Email ID', 'Notes'];
 
 function getSheetsId() {
     const sheetId = process.env.GOOGLE_SHEET_ID;
@@ -54,13 +54,23 @@ export async function addApplication(
     const sheets = google.sheets({ version: 'v4', auth })
     const sheetId = getSheetsId();
 
+    // Format dates to be readable
+    const formatDate = (isoDate: string) => {
+        const date = new Date(isoDate);
+        return date.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
+    };
+
     const row = [
         application.jobTitle,
         application.companyName,
-        application.dateApplied || '',
+        application.dateApplied ? formatDate(application.dateApplied) : '',
         application.status,
-        application.lastUpdated,
-        application.emailId,
+        formatDate(application.lastUpdated),
+        application.emailId.substring(0, 16), // Truncate email ID for readability
         application.notes || '',
     ];
 
@@ -87,13 +97,23 @@ export async function updateApplication(auth: OAuth2Client, application: JobAppl
     const sheets = google.sheets({version:'v4', auth});
     const sheetId = getSheetsId();
 
+    // Format dates to be readable
+    const formatDate = (isoDate: string) => {
+        const date = new Date(isoDate);
+        return date.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
+    };
+
     const row = [
         application.jobTitle,
         application.companyName,
-        application.dateApplied || '',
+        application.dateApplied ? formatDate(application.dateApplied) : '',
         application.status,
-        application.lastUpdated,
-        application.emailId,
+        formatDate(application.lastUpdated),
+        application.emailId.substring(0, 16), // Truncate for readability
         application.notes || '',
     ];
 

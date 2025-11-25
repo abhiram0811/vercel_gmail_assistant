@@ -25,6 +25,6 @@ function getGeminiClient(): GoogleGenerativeAI {
  */
 export function getGeminiModel(){
     const client = getGeminiClient();
-    return client.getGenerativeModel({ model: 'gemini-1.5-flash'});
+    return client.getGenerativeModel({ model: 'gemini-2.0-flash-lite'}); // Try gemini-pro instead
 }
 

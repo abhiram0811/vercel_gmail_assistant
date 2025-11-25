@@ -7,7 +7,10 @@ import { google } from 'googleapis';
 import type { OAuth2Client } from 'google-auth-library';
 import type { GmailMessage } from './types';
 
-const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
+const SCOPES = [
+  'https://www.googleapis.com/auth/gmail.readonly',
+  'https://www.googleapis.com/auth/spreadsheets', // Add Sheets access
+];
 
 /**
  * Creates an OAuth2 client with credentials from environment

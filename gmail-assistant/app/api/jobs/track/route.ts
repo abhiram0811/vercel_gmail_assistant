@@ -35,33 +35,53 @@ export async function GET(request: NextRequest) {
 
         const existingApps = await getAllApplications(oauth2Client);
 
+        // Create a Set of processed email IDs for fast duplicate detection
+        const processedEmailIds = new Set(existingApps.map(app => app.emailId));
+
         const newJobs = [];
         const updatedJobs = [];
+        let skipped = 0;
+        let geminiCallCount = 0;
 
         for (const email of emails) {
-            
-            const jobData = await classifyJobEmail(email);
-            
-            if (!jobData) {
-                continue; // Go to next email
+            // OPTIMIZATION 1: Skip if we've already processed THIS EXACT email
+            if (processedEmailIds.has(email.id)) {
+                skipped++;
+                continue; // Same email, already processed
             }
 
-            const existingJob = existingApps.find(app => app.emailId === email.id);
+            // Rate limit protection: Delay between Gemini calls (after first call)
+            if (geminiCallCount > 0) {
+                await new Promise(resolve => setTimeout(resolve, 200)); // 200ms between calls
+            }
+
+            // NEW email - classify it with Gemini
+            const jobData = await classifyJobEmail(email);
+            geminiCallCount++;
+            
+            if (!jobData) {
+                continue; // Not job-related, skip
+            }
+
+            // OPTIMIZATION 2: Check if this job (by title+company) exists
+            const existingJob = existingApps.find(
+                app => app.jobTitle.toLowerCase() === jobData.jobTitle.toLowerCase() &&
+                       app.companyName.toLowerCase() === jobData.companyName.toLowerCase()
+            );
 
             if (existingJob) {
-                // We've seen this email before!
-                // Check: Did the status change? (e.g., "applied" → "interview")
+                // Same job exists! Check if status changed
                 if (existingJob.status !== jobData.status) {
-                    // Status changed! Update it in the sheet
+                    // Status update! (e.g., "applied" → "interview")
                     await updateApplication(oauth2Client, {
                         ...jobData,
-                        sheetRowId: existingJob.sheetRowId, // Keep same row number
+                        sheetRowId: existingJob.sheetRowId,
                     });
-                    updatedJobs.push(jobData.jobTitle);
+                    updatedJobs.push(`${jobData.jobTitle} at ${jobData.companyName}`);
                 }
-                // If status is same, do nothing (skip)
+                // Same status, no update needed
             } else {
-                // Brand new job email! Add it to the sheet
+                // Brand new job application!
                 await addApplication(oauth2Client, jobData);
                 newJobs.push(jobData.jobTitle);
             }
@@ -74,6 +94,8 @@ export async function GET(request: NextRequest) {
             newJobs: newJobs.length,
             updatedJobs: updatedJobs.length,
             processed: emails.length,
+            skipped: skipped,
+            geminiCalls: emails.length - skipped,
         });
 
     } catch (error) {

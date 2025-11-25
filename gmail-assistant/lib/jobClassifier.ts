@@ -30,12 +30,28 @@ export async function classifyJobEmail(email: GmailMessage): Promise<JobApplicat
 
     const prompt = `You are an email classifier for job application tracking.
 
+IMPORTANT: Only classify emails where the USER has APPLIED to a job, NOT job alerts/recommendations.
+
 Analyze this email and determine:
-1. Is this a job application-related email? (yes/no)
+1. Is this about a job application YOU submitted? (NOT job alerts, job board notifications, or recommendations)
 2. If yes, extract:
    - Job Title
    - Company Name
    - Application Status (choose ONE): applied, rejected, assessment, interview, moving-forward, offer
+
+Status definitions:
+- "applied": Confirmation that you submitted an application
+- "rejected": Application declined
+- "assessment": Take-home assignment or coding test
+- "interview": Interview invitation
+- "moving-forward": Positive response, next steps
+- "offer": Job offer received
+
+REJECT these:
+- Job alerts from LinkedIn, Indeed, Glassdoor
+- Job recommendations
+- Newsletter/promotional emails about jobs
+- Emails that just list open positions
 
 Email details:
 Subject: ${subject}
@@ -53,7 +69,6 @@ Respond in JSON format only:
 
     const model = getGeminiModel();
     const result = await model.generateContent(prompt);
-    console.log(result);
     const responseText = result.response.text();
     // Clean the response (remove markdown code blocks if any)
     const cleanedText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();

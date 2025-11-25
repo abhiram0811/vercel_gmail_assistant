@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searching, setSearching] = useState(false);
   const [indexing, setIndexing] = useState(false);
+  const [tracking, setTracking] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [stats, setStats] = useState<IndexStats | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -118,6 +119,35 @@ export default function Dashboard() {
     }
   };
 
+  const handleJobTrack = async () => {
+    setTracking(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const response = await fetch('/api/jobs/track');
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess(
+          `✅ Job tracking complete! 
+          📧 Processed: ${data.processed} emails
+          🆕 New jobs: ${data.newJobs}
+          🔄 Updated: ${data.updatedJobs}
+          ⏭️ Skipped: ${data.skipped} (duplicate emails)
+          🤖 Gemini calls: ${data.geminiCalls}`
+        );
+      } else {
+        setError(data.error || 'Job tracking failed');
+      }
+    } catch (error) {
+      console.error('Job tracking error:', error);
+      setError('Failed to track jobs');
+    } finally {
+      setTracking(false);
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -167,13 +197,33 @@ export default function Dashboard() {
               </p>
               <p className="text-sm text-gray-600">Emails indexed</p>
             </div>
-            <button
-              onClick={handleIndex}
-              disabled={indexing}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {indexing ? 'Indexing...' : "Index Today's Emails"}
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={handleIndex}
+                disabled={indexing}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {indexing ? 'Indexing...' : "Index Today's Emails"}
+              </button>
+              <button
+                onClick={handleJobTrack}
+                disabled={tracking}
+                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {tracking ? 'Tracking...' : '📊 Track Job Applications'}
+              </button>
+              <a
+                href={`https://docs.google.com/spreadsheets/d/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID}/edit`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors inline-flex items-center gap-2"
+              >
+                📋 View Sheet
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
