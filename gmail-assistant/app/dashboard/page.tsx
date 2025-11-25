@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -163,68 +165,98 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto"></div>
+          <p className="mt-6 text-muted-foreground animate-pulse">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-400/10 dark:bg-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+      </div>
+
       {/* Header */}
-      <header className="bg-white border-b">
+      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-border shadow-sm transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <div className="animate-fade-in-up">
+              <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent animate-gradient">
                 Gmail Assistant
               </h1>
               <p className="text-sm text-muted-foreground mt-1">AI-powered job application tracker</p>
             </div>
-            <Button variant="outline" onClick={handleLogout}>
-              Logout
-            </Button>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <Button variant="outline" onClick={handleLogout} className="hover:bg-destructive/10 hover:text-destructive hover:border-destructive transition-all">
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Stats & Actions */}
-        <Card>
+        <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:shadow-2xl transition-all duration-500 animate-fade-in-up">
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-2xl">Job Applications</CardTitle>
-                <CardDescription>Track and manage your job search</CardDescription>
+                <CardTitle className="text-3xl bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                  Job Applications
+                </CardTitle>
+                <CardDescription className="text-base mt-2">Track and manage your job search effortlessly</CardDescription>
               </div>
-              <Badge variant="secondary" className="text-lg px-4 py-2">
+              <Badge variant="secondary" className="text-2xl px-6 py-3 bg-linear-to-r from-blue-500 to-indigo-500 text-white border-0 shadow-lg animate-pulse-glow">
                 {stats?.totalRecordCount || 0} tracked
               </Badge>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-4">
               <Button
                 onClick={handleIndex}
                 disabled={indexing}
                 variant="default"
+                size="lg"
+                className="bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
               >
-                {indexing ? 'Indexing...' : "📥 Index Today's Emails"}
+                {indexing ? (
+                  <span className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Indexing...
+                  </span>
+                ) : (
+                  '📥 Index Today\'s Emails'
+                )}
               </Button>
               <Button
                 onClick={handleJobTrack}
                 disabled={tracking}
-                className="bg-green-600 hover:bg-green-700"
+                size="lg"
+                className="bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-105"
               >
-                {tracking ? 'Tracking...' : '🎯 Track Job Applications'}
+                {tracking ? (
+                  <span className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Tracking...
+                  </span>
+                ) : (
+                  '🎯 Track Job Applications'
+                )}
               </Button>
               <Button
                 asChild
                 variant="outline"
+                size="lg"
+                className="border-2 hover:bg-blue-50 dark:hover:bg-blue-950/30 hover:border-blue-500 hover:shadow-lg transition-all duration-300"
               >
                 <a
                   href={`https://docs.google.com/spreadsheets/d/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID}/edit`}
@@ -244,22 +276,23 @@ export default function Dashboard() {
 
         {/* Alerts */}
         {error && (
-          <Card className="border-destructive/50 bg-destructive/5">
-            <CardContent className="pt-6">
-              <p className="text-destructive">{error}</p>
-            </CardContent>
-          </Card>
+          <Alert className="border-2 border-destructive/50 bg-destructive/10 backdrop-blur-sm shadow-lg animate-scale-in">
+            <AlertDescription className="flex items-center gap-3 text-base">
+              <span className="text-2xl">⚠️</span>
+              <span className="text-destructive font-medium">{error}</span>
+            </AlertDescription>
+          </Alert>
         )}
         {success && (
-          <Card className="border-green-500/50 bg-green-50">
-            <CardContent className="pt-6">
-              <p className="text-green-700">{success}</p>
-            </CardContent>
-          </Card>
+          <Alert className="border-2 border-green-500/50 bg-green-50 dark:bg-green-950/30 backdrop-blur-sm shadow-lg animate-scale-in">
+            <AlertDescription className="text-green-700 dark:text-green-400 font-medium text-base">
+              {success}
+            </AlertDescription>
+          </Alert>
         )}
 
         {/* Search Box */}
-        <Card>
+        <Card className="border-0 shadow-lg bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:shadow-xl transition-all duration-300">
           <CardHeader>
             <CardTitle>Search Emails</CardTitle>
             <CardDescription>Search your emails using AI-powered semantic search</CardDescription>
