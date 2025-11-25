@@ -1,5 +1,15 @@
 {
-  "buildCommand": "cd gmail-assistant && npm run build",
-  "devCommand": "cd gmail-assistant && npm run dev",
-  "installCommand": "cd gmail-assistant && npm install"
+  "version": 2,
+  "builds": [
+    {
+      "src": "gmail-assistant/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "gmail-assistant/$1"
+    }
+  ]
 }
