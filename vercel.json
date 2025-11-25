@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd gmail-assistant && npm run build",
+  "devCommand": "cd gmail-assistant && npm run dev",
+  "installCommand": "cd gmail-assistant && npm install"
+}
