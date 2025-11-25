@@ -7,6 +7,9 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 function HomeContent() {
   const router = useRouter();
@@ -65,80 +68,94 @@ function HomeContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 px-4">
-      <div className="max-w-2xl w-full">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            📧 Gmail Assistant
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 px-4">
+      <div className="max-w-4xl w-full py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <Badge variant="secondary" className="mb-4 text-sm px-4 py-1">
+            AI-Powered Email Management
+          </Badge>
+          <h1 className="text-6xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-6">
+            Gmail Assistant
           </h1>
-          <p className="text-xl text-gray-600 mb-2">
-            Semantic Search for Your Emails
+          <p className="text-xl text-muted-foreground mb-2 max-w-2xl mx-auto">
+            Track job applications automatically with AI
           </p>
-          <p className="text-gray-500">
-            Find emails by meaning, not just keywords
+          <p className="text-muted-foreground">
+            Never miss a job opportunity. Powered by Google Gemini.
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-            <p className="font-semibold">Error</p>
-            <p>{error}</p>
-          </div>
+          <Card className="mb-6 p-4 bg-destructive/10 border-destructive/20">
+            <p className="font-semibold text-destructive">Error</p>
+            <p className="text-sm text-destructive/80">{error}</p>
+          </Card>
         )}
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                Features
-              </h2>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span>Search emails by meaning with AI-powered semantic search</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span>Automatic email indexing with OpenAI embeddings</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span>Fast vector similarity search with Pinecone</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span>Secure OAuth2 authentication with Gmail</span>
-                </li>
-              </ul>
+        <Card className="p-8 shadow-xl border-0">
+          <div className="space-y-8">
+            {/* Features Grid */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="flex items-start space-x-3 p-4 rounded-lg bg-blue-50/50">
+                <span className="text-2xl">📧</span>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-1">Smart Job Tracking</h3>
+                  <p className="text-sm text-muted-foreground">AI automatically detects and organizes job applications from your inbox</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3 p-4 rounded-lg bg-indigo-50/50">
+                <span className="text-2xl">🤖</span>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-1">Google Gemini AI</h3>
+                  <p className="text-sm text-muted-foreground">Powered by advanced AI to understand application emails</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3 p-4 rounded-lg bg-green-50/50">
+                <span className="text-2xl">📊</span>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-1">Google Sheets Export</h3>
+                  <p className="text-sm text-muted-foreground">All applications synced to a spreadsheet for easy tracking</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3 p-4 rounded-lg bg-purple-50/50">
+                <span className="text-2xl">🔒</span>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-1">Secure & Private</h3>
+                  <p className="text-sm text-muted-foreground">OAuth2 authentication with read-only Gmail access</p>
+                </div>
+              </div>
             </div>
 
-            <div className="pt-4">
-              <button
+            {/* CTA */}
+            <div className="pt-4 space-y-3">
+              <Button
                 onClick={handleLogin}
                 disabled={loading}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                size="lg"
+                className="w-full text-base font-semibold"
               >
-                {loading ? 'Connecting...' : 'Sign in with Google'}
-              </button>
-              <p className="text-xs text-gray-500 mt-3 text-center">
+                {loading ? 'Connecting...' : '🚀 Sign in with Google'}
+              </Button>
+              <p className="text-xs text-muted-foreground text-center">
                 We only request read-only access to your Gmail
               </p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="mt-8 text-center text-sm text-gray-600">
-          <p>Built with Next.js • OpenAI • Pinecone • Vercel</p>
+        <div className="mt-8 text-center">
+          <p className="text-sm text-muted-foreground">Built with Next.js • Google Gemini • Google Sheets • Vercel</p>
         </div>
       </div>
     </div>

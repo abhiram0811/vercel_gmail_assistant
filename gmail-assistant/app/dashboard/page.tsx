@@ -8,6 +8,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { SearchResult, IndexStats } from '@/lib/types';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -159,150 +163,166 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">📧 Gmail Assistant</h1>
-            <button
-              onClick={handleLogout}
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
+            <div>
+              <h1 className="text-3xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Gmail Assistant
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">AI-powered job application tracker</p>
+            </div>
+            <Button variant="outline" onClick={handleLogout}>
               Logout
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Card */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">Index Statistics</h2>
-              <p className="text-3xl font-bold text-indigo-600">
-                {stats?.totalRecordCount || 0}
-              </p>
-              <p className="text-sm text-gray-600">Emails indexed</p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* Stats & Actions */}
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="text-2xl">Job Applications</CardTitle>
+                <CardDescription>Track and manage your job search</CardDescription>
+              </div>
+              <Badge variant="secondary" className="text-lg px-4 py-2">
+                {stats?.totalRecordCount || 0} tracked
+              </Badge>
             </div>
-            <div className="flex gap-3">
-              <button
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              <Button
                 onClick={handleIndex}
                 disabled={indexing}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="default"
               >
-                {indexing ? 'Indexing...' : "Index Today's Emails"}
-              </button>
-              <button
+                {indexing ? 'Indexing...' : "📥 Index Today's Emails"}
+              </Button>
+              <Button
                 onClick={handleJobTrack}
                 disabled={tracking}
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-green-600 hover:bg-green-700"
               >
-                {tracking ? 'Tracking...' : '📊 Track Job Applications'}
-              </button>
-              <a
-                href={`https://docs.google.com/spreadsheets/d/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID}/edit`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors inline-flex items-center gap-2"
+                {tracking ? 'Tracking...' : '🎯 Track Job Applications'}
+              </Button>
+              <Button
+                asChild
+                variant="outline"
               >
-                📋 View Sheet
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
+                <a
+                  href={`https://docs.google.com/spreadsheets/d/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID}/edit`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2"
+                >
+                  � View Google Sheet
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </Button>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Alerts */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-            <p>{error}</p>
-          </div>
+          <Card className="border-destructive/50 bg-destructive/5">
+            <CardContent className="pt-6">
+              <p className="text-destructive">{error}</p>
+            </CardContent>
+          </Card>
         )}
         {success && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
-            <p>{success}</p>
-          </div>
+          <Card className="border-green-500/50 bg-green-50">
+            <CardContent className="pt-6">
+              <p className="text-green-700">{success}</p>
+            </CardContent>
+          </Card>
         )}
 
         {/* Search Box */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <form onSubmit={handleSearch}>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
-              Search your emails
-            </label>
-            <div className="flex gap-3">
-              <input
-                type="text"
-                id="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="e.g., project updates, meeting invitations, payment confirmations"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-              />
-              <button
-                type="submit"
-                disabled={searching || !searchQuery.trim()}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {searching ? 'Searching...' : 'Search'}
-              </button>
-            </div>
-            <p className="mt-2 text-sm text-gray-500">
-              💡 Search by meaning, not just keywords! Try "emails about work projects" or "meeting invites"
-            </p>
-          </form>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Search Emails</CardTitle>
+            <CardDescription>Search your emails using AI-powered semantic search</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSearch} className="space-y-4">
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  id="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="e.g., project updates, meeting invitations, payment confirmations"
+                  className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+                <Button
+                  type="submit"
+                  disabled={searching || !searchQuery.trim()}
+                >
+                  {searching ? 'Searching...' : 'Search'}
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                💡 Search by meaning, not just keywords! Try "emails about work projects" or "meeting invites"
+              </p>
+            </form>
+          </CardContent>
+        </Card>
 
         {/* Results */}
         {results.length > 0 && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Search Results ({results.length})
-            </h2>
-            <div className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Search Results</CardTitle>
+              <CardDescription>{results.length} emails found</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
               {results.map((result, index) => (
-                <div
-                  key={result.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">
-                        {result.metadata.subject}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        From: {result.metadata.from}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {result.metadata.date}
-                      </p>
+                <Card key={result.id} className="border-l-4 border-l-primary/50">
+                  <CardContent className="pt-6">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg mb-2">
+                          {result.metadata.subject}
+                        </h3>
+                        <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+                          <span>From: {result.metadata.from}</span>
+                          <Separator orientation="vertical" className="h-4" />
+                          <span>{result.metadata.date}</span>
+                        </div>
+                      </div>
+                      <Badge variant="secondary">
+                        {(result.score * 100).toFixed(1)}% match
+                      </Badge>
                     </div>
-                    <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2 py-1 rounded">
-                      {(result.score * 100).toFixed(1)}% match
-                    </span>
-                  </div>
-                  <p className="text-gray-700 text-sm mt-2">
-                    {result.metadata.snippet}...
-                  </p>
-                </div>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {result.metadata.snippet}...
+                    </p>
+                  </CardContent>
+                </Card>
               ))}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         )}
       </main>
     </div>
