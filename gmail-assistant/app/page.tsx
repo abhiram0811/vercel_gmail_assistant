@@ -135,7 +135,7 @@ function HomeContent() {
                   </div>
                 </div>
                 <div className="group flex items-start space-x-4 p-6 rounded-xl bg-linear-to-br from-indigo-50 to-indigo-100/50 dark:from-indigo-950/50 dark:to-indigo-900/30 border border-indigo-200/50 dark:border-indigo-800/50 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20">
-                  <span className="text-3xl group-hover:scale-110 transition-transform duration-300">🤖</span>
+                  <span className="text-3xl group-hover:scale-110 transition-transform duration-300">🦾</span>
                   <div>
                     <h3 className="font-bold text-foreground mb-2 text-lg">Google Gemini AI</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">Powered by advanced AI to understand application emails</p>
