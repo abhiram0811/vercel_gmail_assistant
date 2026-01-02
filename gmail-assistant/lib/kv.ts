@@ -1,47 +1,27 @@
 /**
- * Vercel KV Client
- * Handles token storage in Redis
+ * Upstash Redis Client
+ * Handles token storage in Upstash Redis
  */
 
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import type { Credentials } from 'google-auth-library';
-import { createClient } from 'redis';
 
 const TOKEN_KEY_PREFIX = 'gmail_token:';
 
-// Use Redis client if REDIS_URL is available, otherwise use Vercel KV
-let redisClient: any = null;
-
-async function getRedisClient() {
-  if (process.env.REDIS_URL) {
-    if (!redisClient) {
-      redisClient = createClient({ url: process.env.REDIS_URL });
-      await redisClient.connect();
-    }
-    return redisClient;
-  }
-  return null;
-}
+// Initialize Upstash Redis client
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
 
 /**
- * Stores OAuth tokens in Vercel KV or Redis
+ * Stores OAuth tokens in Upstash Redis
  */
 export async function storeTokens(userId: string, tokens: Credentials): Promise<void> {
   try {
     const key = `${TOKEN_KEY_PREFIX}${userId}`;
-    const value = JSON.stringify(tokens);
-    
-    // Try Redis client first if REDIS_URL is available
-    const client = await getRedisClient();
-    if (client) {
-      await client.set(key, value);
-      console.log('Tokens stored successfully in Redis');
-      return;
-    }
-    
-    // Fallback to Vercel KV
-    await kv.set(key, value);
-    console.log('Tokens stored successfully in KV');
+    await redis.set(key, JSON.stringify(tokens));
+    console.log('Tokens stored successfully in Upstash');
   } catch (error) {
     console.error('Error storing tokens:', error);
     throw new Error('Failed to store tokens');
@@ -49,30 +29,22 @@ export async function storeTokens(userId: string, tokens: Credentials): Promise<
 }
 
 /**
- * Retrieves OAuth tokens from Vercel KV or Redis
+ * Retrieves OAuth tokens from Upstash Redis
  */
 export async function getTokens(userId: string): Promise<Credentials | null> {
   try {
     const key = `${TOKEN_KEY_PREFIX}${userId}`;
-    
-    // Try Redis client first if REDIS_URL is available
-    const client = await getRedisClient();
-    if (client) {
-      const tokensStr = await client.get(key);
-      if (!tokensStr) {
-        return null;
-      }
-      return JSON.parse(tokensStr);
-    }
-    
-    // Fallback to Vercel KV
-    const tokensStr = await kv.get<string>(key);
+    const tokensStr = await redis.get<string>(key);
     
     if (!tokensStr) {
       return null;
     }
 
-    return JSON.parse(tokensStr);
+    // Handle both string and already-parsed object
+    if (typeof tokensStr === 'string') {
+      return JSON.parse(tokensStr);
+    }
+    return tokensStr as unknown as Credentials;
   } catch (error) {
     console.error('Error retrieving tokens:', error);
     return null;
@@ -80,23 +52,13 @@ export async function getTokens(userId: string): Promise<Credentials | null> {
 }
 
 /**
- * Deletes OAuth tokens from Vercel KV or Redis
+ * Deletes OAuth tokens from Upstash Redis
  */
 export async function deleteTokens(userId: string): Promise<void> {
   try {
     const key = `${TOKEN_KEY_PREFIX}${userId}`;
-    
-    // Try Redis client first if REDIS_URL is available
-    const client = await getRedisClient();
-    if (client) {
-      await client.del(key);
-      console.log('Tokens deleted successfully from Redis');
-      return;
-    }
-    
-    // Fallback to Vercel KV
-    await kv.del(key);
-    console.log('Tokens deleted successfully from KV');
+    await redis.del(key);
+    console.log('Tokens deleted successfully from Upstash');
   } catch (error) {
     console.error('Error deleting tokens:', error);
     throw new Error('Failed to delete tokens');
@@ -116,7 +78,7 @@ export async function hasTokens(userId: string): Promise<boolean> {
 }
 
 /**
- * Updates tokens in KV (used after refresh)
+ * Updates tokens in Redis (used after refresh)
  */
 export async function updateTokens(userId: string, tokens: Credentials): Promise<void> {
   await storeTokens(userId, tokens);
