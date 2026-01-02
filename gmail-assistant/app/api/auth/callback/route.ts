@@ -14,10 +14,19 @@ export async function GET(request: NextRequest) {
     const code = searchParams.get('code');
     const error = searchParams.get('error');
 
+    // Log ALL query params for debugging
+    const allParams = Object.fromEntries(searchParams.entries());
+    console.error('OAuth callback received with params:', JSON.stringify(allParams, null, 2));
+
     if (error) {
-      console.error('OAuth error:', error);
+      const errorDescription = searchParams.get('error_description') || 'No description';
+      console.error('OAuth error details:', {
+        error,
+        error_description: errorDescription,
+        all_params: allParams
+      });
       return NextResponse.redirect(
-        new URL(`/?error=${encodeURIComponent('Authentication failed')}`, request.url)
+        new URL(`/?error=${encodeURIComponent(`${error}: ${errorDescription}`)}`, request.url)
       );
     }
 
