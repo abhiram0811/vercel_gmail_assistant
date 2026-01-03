@@ -169,3 +169,18 @@ export async function refreshAccessTokenIfNeeded(oauth2Client: OAuth2Client): Pr
     }
   }
 }
+
+/**
+ * Fetches emails since a specific date
+ * Used by scheduled processing to get only new emails
+ */
+export async function fetchEmailsSince(
+  oauth2Client: OAuth2Client,
+  sinceDate: Date,
+  maxResults: number = 100
+): Promise<GmailMessage[]> {
+  const timestamp = Math.floor(sinceDate.getTime() / 1000);
+  const query = `after:${timestamp}`;
+  return fetchRecentEmails(oauth2Client, maxResults, query);
+}
+

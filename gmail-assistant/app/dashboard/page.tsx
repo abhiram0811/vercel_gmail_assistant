@@ -7,13 +7,20 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { SearchResult, IndexStats } from '@/lib/types';
+import type { SearchResult, IndexStats, ScheduleFrequency, UserSettings } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ThemeToggle } from '@/components/theme-toggle';
+
+const FREQUENCY_OPTIONS: { value: ScheduleFrequency; label: string; description: string }[] = [
+  { value: 'manual', label: 'Manual', description: 'Only when you click' },
+  { value: 'daily', label: 'Daily', description: '9 AM UTC' },
+  { value: '3h', label: 'Every 3h', description: '8 times per day' },
+  { value: 'hourly', label: 'Hourly', description: '24 times per day' },
+];
 
 export default function Dashboard() {
   const router = useRouter();
@@ -26,10 +33,13 @@ export default function Dashboard() {
   const [stats, setStats] = useState<IndexStats | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [scheduleSettings, setScheduleSettings] = useState<UserSettings | null>(null);
+  const [updatingSchedule, setUpdatingSchedule] = useState(false);
 
   useEffect(() => {
     checkAuth();
     loadStats();
+    loadSettings();
   }, []);
 
   const checkAuth = async () => {
@@ -58,6 +68,46 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error('Error loading stats:', error);
+    }
+  };
+
+  const loadSettings = async () => {
+    try {
+      const response = await fetch('/api/settings/schedule');
+      const data = await response.json();
+      if (data.success) {
+        setScheduleSettings(data.data);
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    }
+  };
+
+  const handleScheduleChange = async (frequency: ScheduleFrequency, isActive: boolean) => {
+    setUpdatingSchedule(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const response = await fetch('/api/settings/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ frequency, isActive }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setScheduleSettings(data.data);
+        setSuccess(data.message);
+      } else {
+        setError(data.error || 'Failed to update schedule');
+      }
+    } catch (error) {
+      console.error('Schedule update error:', error);
+      setError('Failed to update schedule');
+    } finally {
+      setUpdatingSchedule(false);
     }
   };
 
@@ -274,7 +324,57 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Alerts */}
+        {/* Schedule Settings */}
+        <Card className="border-0 shadow-lg bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:shadow-xl transition-all duration-300">
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  ⏰ Automated Processing
+                  {scheduleSettings?.isActive && scheduleSettings.scheduleFrequency !== 'manual' && (
+                    <Badge className="bg-green-500 text-white">Active</Badge>
+                  )}
+                </CardTitle>
+                <CardDescription>
+                  Schedule automatic email processing and job tracking
+                </CardDescription>
+              </div>
+              {scheduleSettings?.lastProcessed && (
+                <div className="text-right text-sm text-muted-foreground">
+                  <div>Last processed:</div>
+                  <div className="font-medium">
+                    {new Date(scheduleSettings.lastProcessed).toLocaleString()}
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {FREQUENCY_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleScheduleChange(option.value, option.value !== 'manual')}
+                  disabled={updatingSchedule}
+                  className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
+                    scheduleSettings?.scheduleFrequency === option.value
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/30 shadow-md'
+                      : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  <div className="font-semibold text-sm">{option.label}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{option.description}</div>
+                </button>
+              ))}
+            </div>
+            {scheduleSettings?.scheduleFrequency !== 'manual' && scheduleSettings?.isActive && (
+              <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+                <span className="animate-pulse">●</span>
+                <span>Emails will be processed automatically</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
         {error && (
           <Alert className="border-2 border-destructive/50 bg-destructive/10 backdrop-blur-sm shadow-lg animate-scale-in">
             <AlertDescription className="flex items-center gap-3 text-base">

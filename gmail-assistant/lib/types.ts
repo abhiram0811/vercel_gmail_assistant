@@ -75,3 +75,18 @@ export type ApplicationStatus = 'applied'
   | 'rejected' 
   | 'assessment' 
   | 'moving-forward';
+
+/**
+ * Schedule frequency for automated processing
+ */
+export type ScheduleFrequency = "3h" | "hourly" | "daily" | "manual";
+
+/**
+ * User settings for scheduled processing
+ */
+export interface UserSettings {
+  scheduleFrequency: ScheduleFrequency;
+  lastProcessed: string | null;
+  qstashScheduleId: string | null;
+  isActive: boolean;
+}
