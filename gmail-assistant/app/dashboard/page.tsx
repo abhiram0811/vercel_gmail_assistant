@@ -153,7 +153,7 @@ export default function Dashboard() {
 
   const getNextRunTime = () => {
     if (!scheduleSettings?.isActive || scheduleSettings.scheduleFrequency === 'manual') {
-      return '--:--';
+      return 'Manual';
     }
     const now = new Date();
     let nextRun = new Date(now);
@@ -177,7 +177,7 @@ export default function Dashboard() {
   };
 
   const getLastProcessedTime = () => {
-    if (!scheduleSettings?.lastProcessed) return '--:--';
+    if (!scheduleSettings?.lastProcessed) return 'Never';
     return new Date(scheduleSettings.lastProcessed).toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit'

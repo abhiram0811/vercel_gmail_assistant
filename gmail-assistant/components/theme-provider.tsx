@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -11,17 +11,35 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+function getInitialTheme(): Theme {
+  if (typeof window === 'undefined') return 'light';
+  
+  const savedTheme = localStorage.getItem('theme') as Theme | null;
+  if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+    return savedTheme;
+  }
+  
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
+  // Initialize theme on mount
   useEffect(() => {
+    const initialTheme = getInitialTheme();
+    setTheme(initialTheme);
+    
+    // Apply immediately to prevent flash
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(initialTheme);
+    
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
   }, []);
 
+  // Update DOM and localStorage when theme changes
   useEffect(() => {
     if (!mounted) return;
     
@@ -31,9 +49,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('theme', theme);
   }, [theme, mounted]);
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => {
+      const newTheme = prev === 'light' ? 'dark' : 'light';
+      // Apply immediately for instant feedback
+      const root = document.documentElement;
+      root.classList.remove('light', 'dark');
+      root.classList.add(newTheme);
+      localStorage.setItem('theme', newTheme);
+      return newTheme;
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
