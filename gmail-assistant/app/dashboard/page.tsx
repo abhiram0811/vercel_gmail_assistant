@@ -196,9 +196,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="relative flex h-screen w-full flex-col bg-[#f6f7f7] dark:bg-gradient-app overflow-hidden text-slate-800 dark:text-white">
+    <div className="relative flex h-screen w-full flex-col bg-slate-50 dark:bg-gradient-app overflow-hidden text-slate-800 dark:text-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#161c1c]/80 backdrop-blur-md z-20">
+      <header className="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#161c1c]/80 backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center size-9 rounded-xl bg-gradient-to-br from-[#38686A] to-[#2e5658] text-white shadow-lg shadow-[#38686A]/20">
             <Sparkles className="size-5" />
@@ -227,7 +227,7 @@ export default function Dashboard() {
         <div className="layout-content-container max-w-6xl mx-auto h-full flex flex-col justify-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             {/* Left Column: Job Tracking Card */}
-            <div className="glass-panel-light dark:glass-panel rounded-2xl p-8 flex flex-col gap-6 relative overflow-hidden group hover:border-[#38686A]/30 transition-colors duration-500 shadow-2xl shadow-black/5 dark:shadow-black/20 bg-white dark:bg-transparent">
+            <div className="glass-panel-light dark:glass-panel rounded-2xl p-8 flex flex-col gap-6 relative overflow-hidden group hover:border-[#38686A]/30 transition-colors duration-500 shadow-lg dark:shadow-2xl shadow-black/10 dark:shadow-black/20 bg-white dark:bg-transparent border border-slate-200/60 dark:border-white/10">
               {/* Subtle gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#38686A]/5 dark:from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
@@ -292,7 +292,7 @@ export default function Dashboard() {
             </div>
 
             {/* Right Column: Automation Card */}
-            <div className="glass-panel-light dark:glass-panel rounded-2xl p-8 flex flex-col gap-6 relative overflow-hidden group hover:border-[#38686A]/30 transition-colors duration-500 shadow-2xl shadow-black/5 dark:shadow-black/20 bg-white dark:bg-transparent">
+            <div className="glass-panel-light dark:glass-panel rounded-2xl p-8 flex flex-col gap-6 relative overflow-hidden group hover:border-[#38686A]/30 transition-colors duration-500 shadow-lg dark:shadow-2xl shadow-black/10 dark:shadow-black/20 bg-white dark:bg-transparent border border-slate-200/60 dark:border-white/10">
               <div className="flex items-center justify-between relative z-10">
                 <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
                   <Bot className="size-5 text-[#38686A]" />
@@ -354,9 +354,9 @@ export default function Dashboard() {
       </main>
 
       {/* Status Bar */}
-      <footer className="w-full bg-slate-50 dark:bg-[#111616] border-t border-slate-200 dark:border-white/5 py-2 px-6">
+      <footer className="w-full bg-white dark:bg-[#111616] border-t border-slate-200 dark:border-white/5 py-2 px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between text-xs">
-          <div className="text-slate-400 dark:text-slate-500 font-medium tracking-wide">SYSTEM STATUS</div>
+          <div className="text-slate-500 dark:text-slate-500 font-medium tracking-wide">SYSTEM STATUS</div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-500">
               <CheckCircle className="size-[14px]" />
