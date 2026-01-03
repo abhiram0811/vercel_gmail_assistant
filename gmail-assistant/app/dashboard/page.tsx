@@ -284,7 +284,7 @@ export default function Dashboard() {
                     <span>Open Google Sheet</span>
                     <ArrowRight className="size-4 transition-transform group-hover/link:translate-x-0.5" />
                   </a>
-                  <span className="text-xs text-slate-400 dark:text-slate-500 font-mono">
+                  <span className="text-xs text-slate-600 dark:text-slate-400 font-mono">
                     Synced: {lastSynced}
                   </span>
                 </div>
@@ -339,12 +339,12 @@ export default function Dashboard() {
               <div className="mt-auto pt-2 relative z-10 border-t border-slate-100 dark:border-white/5">
                 <div className="flex items-center justify-between mt-4">
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Next run</span>
-                    <span className="text-sm font-mono font-semibold text-slate-800 dark:text-white">{getNextRunTime()}</span>
+                    <span className="text-xs text-slate-600 dark:text-slate-400 mb-0.5">Next run</span>
+                    <span className="text-sm font-mono font-semibold text-slate-900 dark:text-white">{getNextRunTime()}</span>
                   </div>
                   <div className="text-right flex flex-col">
-                    <span className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Last processed</span>
-                    <span className="text-sm font-mono font-semibold text-slate-800 dark:text-white">{getLastProcessedTime()}</span>
+                    <span className="text-xs text-slate-600 dark:text-slate-400 mb-0.5">Last processed</span>
+                    <span className="text-sm font-mono font-semibold text-slate-900 dark:text-white">{getLastProcessedTime()}</span>
                   </div>
                 </div>
               </div>
