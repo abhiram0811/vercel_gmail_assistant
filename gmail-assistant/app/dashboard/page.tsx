@@ -339,12 +339,12 @@ export default function Dashboard() {
               <div className="mt-auto pt-2 relative z-10 border-t border-slate-100 dark:border-white/5">
                 <div className="flex items-center justify-between mt-4">
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-400 dark:text-slate-500 mb-0.5">Next run</span>
-                    <span className="text-sm font-mono text-slate-700 dark:text-white">{getNextRunTime()}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Next run</span>
+                    <span className="text-sm font-mono font-semibold text-slate-800 dark:text-white">{getNextRunTime()}</span>
                   </div>
                   <div className="text-right flex flex-col">
-                    <span className="text-xs text-slate-400 dark:text-slate-500 mb-0.5">Last processed</span>
-                    <span className="text-sm font-mono text-slate-700 dark:text-white">{getLastProcessedTime()}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Last processed</span>
+                    <span className="text-sm font-mono font-semibold text-slate-800 dark:text-white">{getLastProcessedTime()}</span>
                   </div>
                 </div>
               </div>
