@@ -248,6 +248,11 @@ body {
   box-shadow: 0 0 0 3px rgba(56, 104, 106, 0.3);
 }
 
+/* ===== GLSL Hills Z-Index Fix ===== */
+.-z-5 {
+  z-index: -5;
+}
+
 /* ===== Dark Mode Overrides ===== */
 .dark {
   color-scheme: dark;

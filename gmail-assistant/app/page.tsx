@@ -9,6 +9,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTheme } from '@/components/theme-provider';
 import { ThemeToggleWithLabel } from '@/components/theme-toggle';
+import { GLSLHills } from '@/components/ui/glsl-hills';
 import {
   Sparkles,
   Rocket,
@@ -98,10 +99,20 @@ function HomeContent() {
       </nav>
 
       {/* Main Content Wrapper */}
-      <main className="flex-grow pt-20 relative">
-        {/* Decorative Background Orbs */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-orb-light dark:bg-gradient-orb rounded-full pointer-events-none -z-10 opacity-60 blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(56,104,106,0.1)_0%,rgba(0,0,0,0)_70%)] dark:bg-[radial-gradient(circle,rgba(56,104,106,0.15)_0%,rgba(0,0,0,0)_70%)] rounded-full pointer-events-none -z-10 blur-3xl"></div>
+      <main className="flex-grow pt-20 relative overflow-hidden">
+        {/* GLSL Hills Background Animation */}
+        <div className="absolute inset-0 w-full h-full -z-10 opacity-30 dark:opacity-20">
+          <GLSLHills 
+            width="100%" 
+            height="100%" 
+            cameraZ={125} 
+            planeSize={256} 
+            speed={0.3} 
+          />
+        </div>
+
+        {/* Gradient Overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f6f7f7]/80 via-[#f6f7f7]/60 to-[#f6f7f7]/80 dark:from-[#161c1c]/80 dark:via-[#161c1c]/60 dark:to-[#161c1c]/80 -z-5 pointer-events-none"></div>
 
         {/* Hero Section */}
         <section className="relative px-6 pt-20 pb-24 md:pt-32 md:pb-32 flex flex-col items-center text-center max-w-5xl mx-auto">
