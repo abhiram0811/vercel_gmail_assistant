@@ -107,7 +107,7 @@ function HomeContent() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#38686A] to-[#2e5658] flex items-center justify-center text-white shadow-lg shadow-[#38686A]/20">
               <Sparkles className="size-5" />
             </div>
-            <h2 className="text-slate-900 dark:text-white text-lg font-bold tracking-tight">JobTracker AI</h2>
+            <h2 className="text-lg font-bold tracking-tight text-slate-800 dark:text-white">JobTracker AI</h2>
           </div>
           {/* Theme Toggle */}
           <ThemeToggleWithLabel />
@@ -124,7 +124,7 @@ function HomeContent() {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.1]">
-            Track Your Job Applications. <br className="hidden md:block" />
+            Jack Your Job Applications. <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4a8587] via-[#38686A] to-[#2e5658] dark:from-[#4a8587] dark:via-white dark:to-[#4a8587] animate-gradient">
               Automatically.
             </span>

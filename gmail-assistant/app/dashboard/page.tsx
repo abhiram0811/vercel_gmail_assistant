@@ -198,19 +198,19 @@ export default function Dashboard() {
   return (
     <div className="relative flex h-screen w-full flex-col bg-slate-50 dark:bg-gradient-app overflow-hidden text-slate-800 dark:text-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#161c1c]/80 backdrop-blur-md z-20">
+      <header className="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-[#161c1c]/90 backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center size-9 rounded-xl bg-gradient-to-br from-[#38686A] to-[#2e5658] text-white shadow-lg shadow-[#38686A]/20">
             <Sparkles className="size-5" />
           </div>
-          <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">GmailJobTrac AI</h1>
+          <h1 className="text-lg font-bold tracking-tight text-slate-800 dark:text-white">TracJob AI</h1>
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          <div className="h-6 w-px bg-slate-200 dark:bg-white/10 mx-1"></div>
+          <div className="h-6 w-px bg-slate-300 dark:bg-white/10 mx-1"></div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all hover:bg-slate-100 dark:hover:bg-white/5 border border-transparent hover:border-slate-200 dark:hover:border-white/10"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all hover:bg-slate-100 dark:hover:bg-white/5 border border-transparent hover:border-slate-200 dark:hover:border-white/10"
           >
             <span>Logout</span>
             <LogOut className="size-4.5" />
