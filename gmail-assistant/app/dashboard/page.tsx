@@ -189,7 +189,7 @@ export default function Dashboard() {
       <div className="min-h-screen flex items-center justify-center bg-[#f6f7f7] dark:bg-[#161c1c]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#38686A] border-t-transparent mx-auto"></div>
-          <p className="mt-6 text-slate-500 dark:text-slate-400 animate-pulse">Loading dashboard...</p>
+          <p className="mt-6 text-slate-500 dark:text-slate-400 animate-pulse">lllLoading dashboard...</p>
         </div>
       </div>
     );
@@ -203,7 +203,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-center size-9 rounded-xl bg-gradient-to-br from-[#38686A] to-[#2e5658] text-white shadow-lg shadow-[#38686A]/20">
             <Sparkles className="size-5" />
           </div>
-          <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">JobTracker AI</h1>
+          <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">GmailJobTrac AI</h1>
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
@@ -213,7 +213,7 @@ export default function Dashboard() {
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all hover:bg-slate-100 dark:hover:bg-white/5 border border-transparent hover:border-slate-200 dark:hover:border-white/10"
           >
             <span>Logout</span>
-            <LogOut className="size-[18px]" />
+            <LogOut className="size-4.5" />
           </button>
         </div>
       </header>

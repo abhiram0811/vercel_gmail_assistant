@@ -82,7 +82,23 @@ function HomeContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-[#f6f7f7] dark:bg-[#161c1c] text-slate-900 dark:text-white">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-transparent text-slate-900 dark:text-white relative">
+      {/* GLSL Hills Background Animation - FIXED: Now at root level with proper z-index */}
+      <div className="fixed inset-0 w-full h-full z-0">
+        <div className="absolute inset-0 bg-[#f6f7f7] dark:bg-[#161c1c]"></div>
+        <div className="absolute inset-0 opacity-80 dark:opacity-60">
+          <GLSLHills 
+            width="100%" 
+            height="100%" 
+            cameraZ={80} 
+            planeSize={256} 
+            speed={0.5} 
+          />
+        </div>
+        {/* Gradient Overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f6f7f7]/50 via-transparent to-[#f6f7f7]/50 dark:from-[#161c1c]/50 dark:via-transparent dark:to-[#161c1c]/50 pointer-events-none"></div>
+      </div>
+
       {/* Top Navigation */}
       <nav className="fixed top-0 w-full z-50 glass-nav-light dark:glass-nav transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -99,21 +115,7 @@ function HomeContent() {
       </nav>
 
       {/* Main Content Wrapper */}
-      <main className="flex-grow pt-20 relative overflow-hidden">
-        {/* GLSL Hills Background Animation */}
-        <div className="absolute inset-0 w-full h-full -z-10 opacity-60 dark:opacity-40">
-          <GLSLHills 
-            width="100%" 
-            height="100%" 
-            cameraZ={100} 
-            planeSize={256} 
-            speed={0.5} 
-          />
-        </div>
-
-        {/* Gradient Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f6f7f7]/70 via-[#f6f7f7]/40 to-[#f6f7f7]/70 dark:from-[#161c1c]/70 dark:via-[#161c1c]/40 dark:to-[#161c1c]/70 -z-5 pointer-events-none"></div>
-
+      <main className="grow pt-20 relative z-10">
         {/* Hero Section */}
         <section className="relative px-6 pt-20 pb-24 md:pt-32 md:pb-32 flex flex-col items-center text-center max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#38686A]/10 border border-[#38686A]/20 text-[#4a8587] dark:text-[#4a8587] text-xs font-semibold tracking-wide uppercase mb-8 backdrop-blur-sm">
@@ -129,7 +131,7 @@ function HomeContent() {
           </h1>
 
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-10 leading-relaxed font-light">
-            Turn your Gmail inbox into a structured career pipeline using AI. No spreadsheets, no manual entry, just focus on the interview.
+            Flip your Gmail inbox into a structured career pipeline using AI. No spreadsheets, no manual entry, just focus on the interview.
           </p>
 
           {/* Error Message */}
