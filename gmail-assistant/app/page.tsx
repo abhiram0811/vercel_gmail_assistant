@@ -101,18 +101,18 @@ function HomeContent() {
       {/* Main Content Wrapper */}
       <main className="flex-grow pt-20 relative overflow-hidden">
         {/* GLSL Hills Background Animation */}
-        <div className="absolute inset-0 w-full h-full -z-10 opacity-30 dark:opacity-20">
+        <div className="absolute inset-0 w-full h-full -z-10 opacity-60 dark:opacity-40">
           <GLSLHills 
             width="100%" 
             height="100%" 
-            cameraZ={125} 
+            cameraZ={100} 
             planeSize={256} 
-            speed={0.3} 
+            speed={0.5} 
           />
         </div>
 
         {/* Gradient Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f6f7f7]/80 via-[#f6f7f7]/60 to-[#f6f7f7]/80 dark:from-[#161c1c]/80 dark:via-[#161c1c]/60 dark:to-[#161c1c]/80 -z-5 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f6f7f7]/70 via-[#f6f7f7]/40 to-[#f6f7f7]/70 dark:from-[#161c1c]/70 dark:via-[#161c1c]/40 dark:to-[#161c1c]/70 -z-5 pointer-events-none"></div>
 
         {/* Hero Section */}
         <section className="relative px-6 pt-20 pb-24 md:pt-32 md:pb-32 flex flex-col items-center text-center max-w-5xl mx-auto">
