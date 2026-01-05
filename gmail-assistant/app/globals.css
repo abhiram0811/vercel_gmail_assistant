@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* Enable dark mode via class selector (Tailwind 4) */
-@custom-variant dark (&:where(.dark, .dark *));
-
-/* ===== Custom Theme Colors ===== */
+/* ===== Custom Theme Colors - #38686A Based Dark Theme ===== */
 :root {
   --primary: #38686A;
   --primary-hover: #2e5658;
   --primary-light: #4a8587;
-  --background-light: #f6f7f7;
-  --background-dark: #161c1c;
-  --card-dark: rgba(30, 38, 38, 0.6);
-  --border-dark: rgba(255, 255, 255, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-bg-light: rgba(255, 255, 255, 0.8);
+  --background: #0f1a1a;
+  --background-elevated: #142222;
+  --card-bg: rgba(20, 34, 34, 0.6);
+  --border: rgba(56, 104, 106, 0.2);
+  --glass-bg: rgba(56, 104, 106, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  color-scheme: dark;
 }
 
 /* ===== Base Styles ===== */
@@ -21,6 +21,8 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  color: var(--text-primary);
 }
 
 ::selection {
@@ -34,7 +36,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #161c1c;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -48,60 +50,37 @@ body {
 
 /* ===== Glass Morphism Utilities ===== */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(56, 104, 106, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-light {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(56, 104, 106, 0.15);
 }
 
 .glass-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  background: linear-gradient(145deg, rgba(56, 104, 106, 0.1) 0%, rgba(56, 104, 106, 0.02) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(56, 104, 106, 0.15);
 }
 
 .glass-nav {
-  background: rgba(22, 28, 28, 0.7);
+  background: rgba(15, 26, 26, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.glass-nav-light {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(56, 104, 106, 0.1);
 }
 
 .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(56, 104, 106, 0.15);
 }
 
 /* ===== Background Utilities ===== */
 .bg-gradient-app {
-  background: radial-gradient(circle at 50% 0%, #1f2a2a 0%, #161c1c 60%);
-}
-
-.bg-gradient-app-light {
-  background: radial-gradient(circle at 50% 0%, #e8eaea 0%, #f6f7f7 60%);
+  background: radial-gradient(ellipse at 50% 0%, #1a3333 0%, #0f1a1a 60%);
 }
 
 .bg-gradient-orb {
-  background: radial-gradient(circle, rgba(56, 104, 106, 0.25) 0%, rgba(22, 28, 28, 0) 70%);
-}
-
-.bg-gradient-orb-light {
-  background: radial-gradient(circle, rgba(56, 104, 106, 0.15) 0%, rgba(246, 247, 247, 0) 70%);
+  background: radial-gradient(circle, rgba(56, 104, 106, 0.3) 0%, rgba(15, 26, 26, 0) 70%);
 }
 
 /* ===== Shimmer Animation ===== */
@@ -251,20 +230,4 @@ body {
 /* ===== GLSL Hills Z-Index Fix ===== */
 .-z-5 {
   z-index: -5;
-}
-
-/* ===== Dark Mode Overrides ===== */
-.dark {
-  color-scheme: dark;
-}
-
-.dark body {
-  background-color: var(--background-dark);
-  color: #ffffff;
-}
-
-/* Light mode body */
-body {
-  background-color: var(--background-light);
-  color: #1a1a1a;
 }

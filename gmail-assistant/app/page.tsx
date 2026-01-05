@@ -1,14 +1,12 @@
 /**
  * Landing Page
- * Entry point of the application - Redesigned with futuristic glass-morphism UI
+ * Entry point of the application - Dark theme with glass-morphism UI
  */
 
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useTheme } from '@/components/theme-provider';
-import { ThemeToggleWithLabel } from '@/components/theme-toggle';
 import { GLSLHills } from '@/components/ui/glsl-hills';
 import {
   Sparkles,
@@ -25,7 +23,6 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { theme } = useTheme();
 
   useEffect(() => {
     const errorParam = searchParams.get('error');
@@ -72,21 +69,21 @@ function HomeContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f6f7f7] dark:bg-[#161c1c]">
+      <div className="min-h-screen flex items-center justify-center bg-[#0f1a1a]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#38686A] border-t-transparent mx-auto"></div>
-          <p className="mt-6 text-slate-500 dark:text-slate-400 animate-pulse">Loading your workspace...</p>
+          <p className="mt-6 text-slate-400 animate-pulse">Loading your workspace...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-transparent text-slate-900 dark:text-white relative">
-      {/* GLSL Hills Background Animation - FIXED: Now at root level with proper z-index */}
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-transparent text-white relative">
+      {/* GLSL Hills Background Animation */}
       <div className="fixed inset-0 w-full h-full z-0">
-        <div className="absolute inset-0 bg-[#f6f7f7] dark:bg-[#161c1c]"></div>
-        <div className="absolute inset-0 opacity-80 dark:opacity-60">
+        <div className="absolute inset-0 bg-[#0f1a1a]"></div>
+        <div className="absolute inset-0 opacity-60">
           <GLSLHills 
             width="100%" 
             height="100%" 
@@ -96,21 +93,19 @@ function HomeContent() {
           />
         </div>
         {/* Gradient Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f6f7f7]/50 via-transparent to-[#f6f7f7]/50 dark:from-[#161c1c]/50 dark:via-transparent dark:to-[#161c1c]/50 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-[#0f1a1a]/50 via-transparent to-[#0f1a1a]/50 pointer-events-none"></div>
       </div>
 
       {/* Top Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-nav-light dark:glass-nav transition-all duration-300">
+      <nav className="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#38686A] to-[#2e5658] flex items-center justify-center text-white shadow-lg shadow-[#38686A]/20">
+            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-[#38686A] to-[#2e5658] flex items-center justify-center text-white shadow-lg shadow-[#38686A]/20">
               <Sparkles className="size-5" />
             </div>
-            <h2 className="text-lg font-bold tracking-tight text-slate-800 dark:text-white">JobTracker AI</h2>
+            <h2 className="text-lg font-bold tracking-tight text-white">JobTracker AI</h2>
           </div>
-          {/* Theme Toggle */}
-          <ThemeToggleWithLabel />
         </div>
       </nav>
 
@@ -118,25 +113,25 @@ function HomeContent() {
       <main className="grow pt-20 relative z-10">
         {/* Hero Section */}
         <section className="relative px-6 pt-20 pb-24 md:pt-32 md:pb-32 flex flex-col items-center text-center max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#38686A]/10 border border-[#38686A]/20 text-[#4a8587] dark:text-[#4a8587] text-xs font-semibold tracking-wide uppercase mb-8 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#38686A]/10 border border-[#38686A]/20 text-[#4a8587] text-xs font-semibold tracking-wide uppercase mb-8 backdrop-blur-sm">
             <Rocket className="size-4" />
             <span>v2.0 Now Available</span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.1]">
-            Jack Your Job Applications. <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4a8587] via-[#38686A] to-[#2e5658] dark:from-[#4a8587] dark:via-white dark:to-[#4a8587] animate-gradient">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
+            Track Your Job Applications. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#4a8587] via-white to-[#4a8587] animate-gradient">
               Automatically.
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-10 leading-relaxed font-light">
-            Flip your Gmail inbox into a structured career pipeline using AI. No spreadsheets, no manual entry, just focus on the interview.
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed font-light">
+            Trackkkk your Gmail inbox into a structured career pipeline using AI. No spreadsheets, no manual entry, just focus on the interview.
           </p>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-8 px-6 py-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-400 max-w-md animate-scale-in">
+            <div className="mb-8 px-6 py-4 rounded-xl bg-red-900/20 border border-red-800/50 text-red-400 max-w-md animate-scale-in">
               <p className="font-medium">Error</p>
               <p className="text-sm mt-1">{error}</p>
             </div>
@@ -146,7 +141,7 @@ function HomeContent() {
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="group relative flex items-center justify-center gap-3 bg-[#38686A] hover:bg-[#4a8587] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#38686A]/30 hover:shadow-xl hover:-translate-y-0.5 min-w-[200px] shimmer-btn disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative flex items-center justify-center gap-3 bg-[#38686A] hover:bg-[#4a8587] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#38686A]/30 hover:shadow-xl hover:-translate-y-0.5 min-w-50 shimmer-btn disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <div className="flex items-center gap-3">
@@ -171,21 +166,21 @@ function HomeContent() {
 
           {/* Hero Visual */}
           <div className="mt-20 w-full relative group">
-            <div className="absolute -inset-1 bg-gradient-to-b from-[#38686A]/30 to-transparent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-            <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-slate-100 dark:bg-[#0f1313]">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#f6f7f7] dark:from-[#161c1c] via-transparent to-transparent z-10 h-full w-full pointer-events-none"></div>
+            <div className="absolute -inset-1 bg-linear-to-b from-[#38686A]/30 to-transparent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+            <div className="relative rounded-2xl overflow-hidden border border-[#38686A]/20 shadow-2xl bg-[#0f1313]">
+              <div className="absolute inset-0 bg-linear-to-t from-[#0f1a1a] via-transparent to-transparent z-10 h-full w-full pointer-events-none"></div>
               {/* Abstract Grid Mockup */}
-              <div className="w-full h-[300px] md:h-[400px] bg-slate-200 dark:bg-slate-800 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 grid grid-cols-3 gap-4 p-8 opacity-40 dark:opacity-40 transform scale-95 origin-top">
+              <div className="w-full h-75 md:h-100 bg-[#142222] flex items-center justify-center relative overflow-hidden">
+                <div className="absolute inset-0 grid grid-cols-3 gap-4 p-8 opacity-40 transform scale-95 origin-top">
                   <div className="col-span-1 h-32 rounded-lg bg-[#38686A]/20 border border-[#38686A]/30"></div>
-                  <div className="col-span-2 h-32 rounded-lg bg-slate-300 dark:bg-white/5 border border-slate-400 dark:border-white/10"></div>
-                  <div className="col-span-2 h-32 rounded-lg bg-slate-300 dark:bg-white/5 border border-slate-400 dark:border-white/10"></div>
-                  <div className="col-span-1 h-32 rounded-lg bg-slate-300 dark:bg-white/5 border border-slate-400 dark:border-white/10"></div>
-                  <div className="col-span-1 h-32 rounded-lg bg-slate-300 dark:bg-white/5 border border-slate-400 dark:border-white/10"></div>
-                  <div className="col-span-1 h-32 rounded-lg bg-slate-300 dark:bg-white/5 border border-slate-400 dark:border-white/10"></div>
+                  <div className="col-span-2 h-32 rounded-lg bg-white/5 border border-white/10"></div>
+                  <div className="col-span-2 h-32 rounded-lg bg-white/5 border border-white/10"></div>
+                  <div className="col-span-1 h-32 rounded-lg bg-white/5 border border-white/10"></div>
+                  <div className="col-span-1 h-32 rounded-lg bg-white/5 border border-white/10"></div>
+                  <div className="col-span-1 h-32 rounded-lg bg-white/5 border border-white/10"></div>
                   <div className="col-span-1 h-32 rounded-lg bg-[#38686A]/20 border border-[#38686A]/30"></div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-200 dark:from-[#161c1c] to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-[#0f1a1a] to-transparent"></div>
               </div>
             </div>
           </div>
@@ -194,60 +189,60 @@ function HomeContent() {
         {/* Features Section */}
         <section className="relative px-6 py-20 max-w-7xl mx-auto">
           <div className="flex flex-col gap-4 mb-16 text-center sm:text-left">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">Seamless Automation</h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Seamless Automation</h2>
+            <p className="text-slate-400 text-lg max-w-2xl">
               Our AI works quietly in the background so you can focus on preparing for your next interview.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1 */}
-            <div className="glass-card-light dark:glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-white/60 dark:bg-transparent border border-slate-200 dark:border-white/10">
+            <div className="glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-transparent border border-[#38686A]/15">
               <div className="w-12 h-12 rounded-xl bg-[#38686A]/20 flex items-center justify-center text-[#4a8587] group-hover:bg-[#38686A] group-hover:text-white transition-colors duration-300">
                 <MailCheck className="size-7" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">AI Email Detection</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <h3 className="text-lg font-bold text-white mb-2">AI Email Detection</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
                   Instantly identifies application confirmations and rejections from your inbox.
                 </p>
               </div>
             </div>
 
             {/* Card 2 */}
-            <div className="glass-card-light dark:glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-white/60 dark:bg-transparent border border-slate-200 dark:border-white/10">
+            <div className="glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-transparent border border-[#38686A]/15">
               <div className="w-12 h-12 rounded-xl bg-[#38686A]/20 flex items-center justify-center text-[#4a8587] group-hover:bg-[#38686A] group-hover:text-white transition-colors duration-300">
                 <Table className="size-7" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Auto Sheets Sync</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <h3 className="text-lg font-bold text-white mb-2">Auto Sheets Sync</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
                   Populates your Google Sheets tracker without you lifting a single finger.
                 </p>
               </div>
             </div>
 
             {/* Card 3 */}
-            <div className="glass-card-light dark:glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-white/60 dark:bg-transparent border border-slate-200 dark:border-white/10">
+            <div className="glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-transparent border border-[#38686A]/15">
               <div className="w-12 h-12 rounded-xl bg-[#38686A]/20 flex items-center justify-center text-[#4a8587] group-hover:bg-[#38686A] group-hover:text-white transition-colors duration-300">
                 <TrendingUp className="size-7" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Smart Status Tracking</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <h3 className="text-lg font-bold text-white mb-2">Smart Status Tracking</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
                   Know exactly when you&apos;ve moved to the interview stage or been archived.
                 </p>
               </div>
             </div>
 
             {/* Card 4 */}
-            <div className="glass-card-light dark:glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/90 dark:hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-white/60 dark:bg-transparent border border-slate-200 dark:border-white/10">
+            <div className="glass-card p-6 rounded-2xl flex flex-col gap-4 group hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38686A]/5 hover:border-[#38686A]/30 bg-transparent border border-[#38686A]/15">
               <div className="w-12 h-12 rounded-xl bg-[#38686A]/20 flex items-center justify-center text-[#4a8587] group-hover:bg-[#38686A] group-hover:text-white transition-colors duration-300">
                 <Clock className="size-7" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Scheduled Processing</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <h3 className="text-lg font-bold text-white mb-2">Scheduled Processing</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
                   Runs silently in the background every hour to keep your data fresh.
                 </p>
               </div>
@@ -257,9 +252,9 @@ function HomeContent() {
 
         {/* CTA Section */}
         <section className="px-6 py-24 flex justify-center">
-          <div className="max-w-4xl w-full text-center space-y-8 p-12 rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#38686A]/10 to-transparent border border-[#38686A]/20">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38686A] to-transparent opacity-50"></div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Ready to automate your job search?</h2>
+          <div className="max-w-4xl w-full text-center space-y-8 p-12 rounded-3xl relative overflow-hidden bg-linear-to-br from-[#38686A]/10 to-transparent border border-[#38686A]/20">
+            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-[#38686A] to-transparent opacity-50"></div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to automate your job search?</h2>
             <button
               onClick={handleLogin}
               disabled={loading}
@@ -272,12 +267,12 @@ function HomeContent() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-white/5 py-10 text-center relative z-10 bg-[#f6f7f7] dark:bg-[#161c1c]">
+      <footer className="border-t border-[#38686A]/10 py-10 text-center relative z-10 bg-[#0f1a1a]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
             JobTracker AI © {new Date().getFullYear()}. All rights reserved.
           </p>
-          <div className="flex items-center gap-2 text-slate-500 text-sm font-medium bg-slate-200 dark:bg-white/5 px-3 py-1.5 rounded-full border border-slate-300 dark:border-white/5">
+          <div className="flex items-center gap-2 text-slate-400 text-sm font-medium bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
             <Brain className="size-4 text-[#38686A]" />
             <span>Powered by Gemini AI</span>
           </div>
@@ -290,10 +285,10 @@ function HomeContent() {
 export default function Home() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#f6f7f7] dark:bg-[#161c1c]">
+      <div className="min-h-screen flex items-center justify-center bg-[#0f1a1a]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#38686A] mx-auto"></div>
-          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading...</p>
+          <p className="mt-4 text-slate-400">Loading...</p>
         </div>
       </div>
     }>
