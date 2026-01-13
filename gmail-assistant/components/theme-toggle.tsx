@@ -25,7 +25,7 @@ export function ThemeToggleWithLabel() {
       aria-label="Theme (Dark Only)"
       className="flex items-center justify-center w-12 h-8 rounded-full bg-white/10 border border-white/20 transition-colors shadow-sm cursor-default"
     >
-      <Sun className="size-[18px] text-amber-400" />
+      <Sun className="size-4.5 text-amber-400" />
     </button>
   );
 }
